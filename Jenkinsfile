@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        maven 'apache-maven-3.9.12' // Must match name in Global Tool Configuration
-        jdk 'jdk-21'        // Java is required for Playwright Java
+        maven 'MAVEN_HOME' // Must match name in Global Tool Configuration
+        jdk 'JAVA_HOME'        // Java is required for Playwright Java
     }
     stages {
         stage('Install & Test') {
