@@ -1,25 +1,21 @@
 pipeline {
     agent any
     tools {
-        nodejs 'mynodejs' // Use the name you gave Node in Global Tool Configuration
+        maven 'maven-3.9.12' // Must match name in Global Tool Configuration
+        jdk 'jdk-21'        // Java is required for Playwright Java
     }
     stages {
-        stage('Install Dependencies') {
+        stage('Install & Test') {
             steps {
-                bat 'npm install'
-                bat 'npx playwright install --with-deps'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                bat 'npx playwright test'
+                // 'mvn test' will automatically download Playwright browsers 
+                // and run your Java tests
+                bat 'mvn clean test'
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: '**/test-results/**', allowEmptyArchive: true
-            junit '**/test-results/results.xml'
+            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
